@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'chat_model.dart';
+import 'call.dart';
+import 'model.dart';
 
 class WhtChat extends StatefulWidget {
   const WhtChat({super.key});
@@ -31,6 +32,7 @@ class _WhtChatState extends State<WhtChat> {
 
   TextEditingController seacrhController = TextEditingController();
 
+  int _selectedIndex = 0;
   List<Chat>filtereditems = []; //to store filtered data
 
   @override
@@ -54,14 +56,28 @@ class _WhtChatState extends State<WhtChat> {
     });
   }
 
+  void onNavItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    // Add navigation logic based on the selected index
+    if (index == 4) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Call()), // Navigate to the Call screen
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color(0xFF0B141B),
+        backgroundColor: Color(0xFF0B1014),
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: Color(0xFF0B141B),
+          backgroundColor: Color(0xFF0B1014),
           title: Text("WhatsApp", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600),),
           actions: [
             IconButton(onPressed: () {}, icon: Icon(Icons.qr_code_scanner), color: Colors.white,),
@@ -115,7 +131,7 @@ class _WhtChatState extends State<WhtChat> {
                     return Container(
                       height: 80,
                       width: 200,
-                      color: Color(0xFF0B141B),
+                      color: Color(0xFF0B1014),
                       child: Stack(
                         children: [
                           Positioned(
@@ -178,7 +194,7 @@ class _WhtChatState extends State<WhtChat> {
                                   child: Text(
                                     "${filtereditems[index].unreadCount}",
                                     style: TextStyle(
-                                      color: Color(0xFF0B141B),
+                                      color: Color(0xFF0B1014),
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -219,12 +235,14 @@ class _WhtChatState extends State<WhtChat> {
           data: NavigationBarThemeData(
             elevation: 10,
             indicatorColor: Color(0xFF103629),
-            backgroundColor: Color(0xFF0B141B),
+            backgroundColor: Color(0xFF0B1014),
             labelTextStyle: WidgetStateProperty.all(
               TextStyle(color: Colors.white),
             ),
           ),
           child: NavigationBar(
+            selectedIndex: _selectedIndex,
+            onDestinationSelected: onNavItemTapped,
             destinations: [
               const NavigationDestination(icon: Icon(Icons.chat_sharp, color: Colors.white), label: "Chats",),
               const NavigationDestination(icon: Icon(Icons.update_sharp, color: Colors.white), label: "Updates"),
