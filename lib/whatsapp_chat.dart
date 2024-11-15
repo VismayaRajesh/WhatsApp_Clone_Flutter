@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'Community.dart';
+import 'Status.dart';
 import 'call.dart';
 import 'model.dart';
 
@@ -12,6 +14,61 @@ class WhtChat extends StatefulWidget {
 }
 
 class _WhtChatState extends State<WhtChat> {
+
+  int _selectedIndex = 0;
+
+  List<Widget>pages = [
+    Chatwidget(),
+    Status(),
+    Community(),
+    Call(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;  // Update the selected index
+    });
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Color(0xFF0B1014),
+        body: pages[_selectedIndex],
+        bottomNavigationBar: NavigationBarTheme(
+          data: NavigationBarThemeData(
+            elevation: 10,
+            indicatorColor: Color(0xFF103629),
+            backgroundColor: Color(0xFF0B1014),
+            labelTextStyle: WidgetStateProperty.all(
+              TextStyle(color: Colors.white),
+            ),
+          ),
+          child: NavigationBar(
+            selectedIndex: _selectedIndex, // Set the selected index
+            onDestinationSelected: _onItemTapped, // Handle tap on navigation items
+            destinations: [
+              const NavigationDestination(icon: Icon(Icons.chat_sharp, color: Colors.white), label: "Chats",),
+              const NavigationDestination(icon: Icon(Icons.update_sharp, color: Colors.white), label: "Updates"),
+              const NavigationDestination(icon: Icon(Icons.people_alt_sharp,  color: Colors.white), label: "Communities"),
+              const NavigationDestination(icon: Icon(Icons.call,  color: Colors.white), label: "Calls"),
+            ],),
+        ),
+      ),
+    );
+  }
+}
+
+class Chatwidget extends StatefulWidget {
+  const Chatwidget({super.key});
+
+  @override
+  State<Chatwidget> createState() => _ChatwidgetState();
+}
+
+class _ChatwidgetState extends State<Chatwidget> {
   List<Chat>chatlist = [
     Chat(url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e", names: "alex", message: "Let me know if you're free", time: "7:45 am", readstatus: true, viewMsg: true, msgRevd : true, unreadCount: 0),
     Chat(url: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0", names: "zoe", message: "Got the tickets!", time: "9:10 am", readstatus: false, viewMsg: false, msgRevd: true, unreadCount: 2),
@@ -32,7 +89,6 @@ class _WhtChatState extends State<WhtChat> {
 
   TextEditingController seacrhController = TextEditingController();
 
-  int _selectedIndex = 0;
   List<Chat>filtereditems = []; //to store filtered data
 
   @override
@@ -56,103 +112,87 @@ class _WhtChatState extends State<WhtChat> {
     });
   }
 
-  void onNavItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    // Add navigation logic based on the selected index
-    if (index == 4) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Call()), // Navigate to the Call screen
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
+    return SafeArea(child: Scaffold(
+      backgroundColor: Color(0xFF0B1014),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Color(0xFF0B1014),
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Color(0xFF0B1014),
-          title: Text("WhatsApp", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600),),
-          actions: [
-            IconButton(onPressed: () {}, icon: Icon(Icons.qr_code_scanner), color: Colors.white,),
-            IconButton(onPressed: () {}, icon: Icon(Icons.camera_alt_outlined), color: Colors.white,),
-            IconButton(onPressed: () {}, icon: Icon(Icons.more_vert), color: Colors.white,),
-          ],
-        ),
-        body: Column(
-          children: [
-            SizedBox(
-              height: 3,
-            ),
-            Container(
-              height: 42,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 14, right: 14,),
-                child: TextField(
-                  controller: seacrhController,
-                  decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(0),
-                      filled: true,
-                      fillColor: Color(0xFF242b31),
-                      hintText: "Search",
-                      hintStyle: TextStyle(
-                          color: Colors.grey
-                      ),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50),
-                          borderSide: BorderSide.none
-                      ),
-                      prefixIcon: Icon(Icons.search, color:  Colors.grey,)
-                  ),
-                  style: TextStyle(color: Colors.white),
-                  onChanged: (value) {
-                    filterSearch(value);
-                  },
+        title: Text("WhatsApp", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600),),
+        actions: [
+          IconButton(onPressed: () {}, icon: Icon(Icons.qr_code_scanner), color: Colors.white,),
+          IconButton(onPressed: () {}, icon: Icon(Icons.camera_alt_outlined), color: Colors.white,),
+          IconButton(onPressed: () {}, icon: Icon(Icons.more_vert), color: Colors.white,),
+        ],
+      ),
+      body:   Column(
+        children: [
+          SizedBox(
+            height: 3,),
+          Container(
+            height: 42,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 14, right: 14,),
+              child: TextField(
+                controller: seacrhController,
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(0),
+                    filled: true,
+                    fillColor: Color(0xFF242b31),
+                    hintText: "Search",
+                    hintStyle: TextStyle(
+                        color: Colors.grey
+                    ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(50),
+                        borderSide: BorderSide.none
+                    ),
+                    prefixIcon: Icon(Icons.search, color:  Colors.grey,)
                 ),
+                style: TextStyle(color: Colors.white),
+                onChanged: (value) {
+                  filterSearch(value);
+                },
               ),
             ),
+          ),
 
-            SizedBox(
-              height: 20,
-            ),
+          SizedBox(
+            height: 20,
+          ),
 
-            Flexible(
-              child: Container(
-                child: ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  itemCount: filtereditems.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      height: 80,
-                      width: 200,
-                      color: Color(0xFF0B1014),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 15,
-                            child: Container(
-                              height: 50,
-                              width: 50,
-                              child: CircleAvatar(
-                                backgroundImage: NetworkImage("${filtereditems[index].url}"),
-                              ),
+          Flexible(
+            child: Container(
+              child: ListView.builder(
+                physics: BouncingScrollPhysics(),
+                itemCount: filtereditems.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    height: 80,
+                    width: 200,
+                    color: Color(0xFF0B1014),
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          left: 15,
+                          child: Container(
+                            height: 50,
+                            width: 50,
+                            child: CircleAvatar(
+                              backgroundImage: NetworkImage("${filtereditems[index].url}"),
                             ),
                           ),
-                          Positioned(
-                            left: 75,
-                            top: 4,
-                            child: Text(
-                              "${filtereditems[index].names}",
-                              style: TextStyle(color: Colors.white, fontSize: 20),
-                            ),
+                        ),
+                        Positioned(
+                          left: 75,
+                          top: 4,
+                          child: Text(
+                            "${filtereditems[index].names}",
+                            style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
-                          if (filtereditems[index].msgRevd == true)
+                        ),
+                        if (filtereditems[index].msgRevd == true)
                           Positioned(
                             left: 75,
                             top: 31,
@@ -161,96 +201,76 @@ class _WhtChatState extends State<WhtChat> {
                               style: TextStyle(color: Colors.grey, fontSize: 15),
                             ),
                           ),
-                          if (filtereditems[index].msgRevd == false)
-                           Positioned(
-                           left: 98,
-                           top: 31,
-                           child: Text(
-                           "${filtereditems[index].message}",
-                           style: TextStyle(color: Colors.grey, fontSize: 15),
-                           ),
-                          ),
+                        if (filtereditems[index].msgRevd == false)
                           Positioned(
-                            right: 16,
-                            top: 15,
+                            left: 98,
+                            top: 31,
                             child: Text(
-                              "${filtereditems[index].time}",
-                              style: TextStyle(color: Colors.grey, fontSize: 12),
+                              "${filtereditems[index].message}",
+                              style: TextStyle(color: Colors.grey, fontSize: 15),
                             ),
                           ),
-                          if (filtereditems[index].msgRevd == true)
-                            Positioned(
-                              right: 18,
-                              top: 38,
-                              child: filtereditems[index].viewMsg == false
-                                  ? Container(
-                                width: 20,
-                                height: 20,
-                                decoration: BoxDecoration(
-                                  color: Color(0xFF21C063),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "${filtereditems[index].unreadCount}",
-                                    style: TextStyle(
-                                      color: Color(0xFF0B1014),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                        Positioned(
+                          right: 16,
+                          top: 15,
+                          child: Text(
+                            "${filtereditems[index].time}",
+                            style: TextStyle(color: Colors.grey, fontSize: 12),
+                          ),
+                        ),
+                        if (filtereditems[index].msgRevd == true)
+                          Positioned(
+                            right: 18,
+                            top: 38,
+                            child: filtereditems[index].viewMsg == false
+                                ? Container(
+                              width: 20,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                color: Color(0xFF21C063),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "${filtereditems[index].unreadCount}",
+                                  style: TextStyle(
+                                    color: Color(0xFF0B1014),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                              )
-                                  : SizedBox.shrink(),
-                            )
-                          else
-                            Positioned(
-                              left: 75,
-                              top: 31,
-                              child: Icon(
-                                Icons.done_all_sharp,
-                                color: filtereditems[index].readstatus ? Colors.blueAccent : Colors.grey,
-                                size: 19,
                               ),
+                            )
+                                : SizedBox.shrink(),
+                          )
+                        else
+                          Positioned(
+                            left: 75,
+                            top: 31,
+                            child: Icon(
+                              Icons.done_all_sharp,
+                              color: filtereditems[index].readstatus ? Colors.blueAccent : Colors.grey,
+                              size: 19,
                             ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
+                          ),
+                      ],
+                    ),
+                  );
+                },
               ),
-            )
-          ],
-        ),
-        floatingActionButton: Container(
-          height: 55,
-          width: 55,
-          child: FloatingActionButton(onPressed: () {},
-            backgroundColor: Color(0xFF21C063),
-            elevation: 20,
-            child: Icon(Icons.add_comment_sharp, color: Colors.black, size: 23,),
-          ),
-        ) ,
-        bottomNavigationBar: NavigationBarTheme(
-          data: NavigationBarThemeData(
-            elevation: 10,
-            indicatorColor: Color(0xFF103629),
-            backgroundColor: Color(0xFF0B1014),
-            labelTextStyle: WidgetStateProperty.all(
-              TextStyle(color: Colors.white),
             ),
           ),
-          child: NavigationBar(
-            selectedIndex: _selectedIndex,
-            onDestinationSelected: onNavItemTapped,
-            destinations: [
-              const NavigationDestination(icon: Icon(Icons.chat_sharp, color: Colors.white), label: "Chats",),
-              const NavigationDestination(icon: Icon(Icons.update_sharp, color: Colors.white), label: "Updates"),
-              const NavigationDestination(icon: Icon(Icons.people_alt_sharp,  color: Colors.white), label: "Communities"),
-              const NavigationDestination(icon: Icon(Icons.call,  color: Colors.white), label: "Calls"),
-            ],),
-        ),
+        ],
       ),
-    );
+      floatingActionButton: Container(
+        height: 55,
+        width: 55,
+        child: FloatingActionButton(onPressed: () {},
+          backgroundColor: Color(0xFF21C063),
+          elevation: 20,
+          child: Icon(Icons.add_comment_sharp, color: Colors.black, size: 23,),
+        ),
+      ) ,
+    ));
   }
 }
