@@ -154,36 +154,6 @@ class _CallState extends State<Call> {
             ),
           ),
         ),
-        bottomNavigationBar: NavigationBarTheme(
-          data: NavigationBarThemeData(
-            elevation: 10,
-            indicatorColor: Color(0xFF103629),
-            backgroundColor: Color(0xFF0B1014),
-            labelTextStyle: MaterialStateProperty.all(
-              TextStyle(color: Colors.white),
-            ),
-          ),
-          child: NavigationBar(
-            destinations: [
-              NavigationDestination(
-                icon: Icon(Icons.chat_sharp, color: Colors.white),
-                label: "Chats",
-              ),
-              NavigationDestination(
-                icon: Icon(Icons.update_sharp, color: Colors.white),
-                label: "Updates",
-              ),
-              NavigationDestination(
-                icon: Icon(Icons.people_alt_sharp, color: Colors.white),
-                label: "Communities",
-              ),
-              NavigationDestination(
-                icon: Icon(Icons.call, color: Colors.white),
-                label: "Calls",
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
