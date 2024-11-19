@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:whatsapp_clone_flutter/chatview.dart';
 
 import 'model.dart';
 
@@ -100,7 +101,8 @@ class _Contact_listState extends State<Contact_list> {
                 color: Colors.white,
               ),
             ),
-            onTap: () {},
+            onTap: () {
+            },
           ),
           SizedBox(height: 12),
           ListTile(
@@ -124,6 +126,9 @@ class _Contact_listState extends State<Contact_list> {
           ),
           SizedBox(height: 6),
           ListTile(
+            onTap: (){
+
+            },
             leading: CircleAvatar(
               backgroundImage: AssetImage("assets/images/nora.jpg"),
             ),
@@ -144,6 +149,14 @@ class _Contact_listState extends State<Contact_list> {
             itemBuilder: (BuildContext context, int index) {
               final contact = Contactlist[index];
               return ListTile(
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Chatview(contact: Contactlist[index]),
+                      ),
+                    );
+                  },
                 leading: CircleAvatar(
                   backgroundImage: NetworkImage(contact.url),
                 ),
