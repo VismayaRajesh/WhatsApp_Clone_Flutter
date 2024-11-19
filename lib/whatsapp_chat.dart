@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:whatsapp_clone_flutter/contact_list.dart';
 
 import 'Community.dart';
 import 'Status.dart';
 import 'call.dart';
+import 'chatview.dart';
 import 'model.dart';
 
 class WhtChat extends StatefulWidget {
@@ -123,7 +125,63 @@ class _ChatwidgetState extends State<Chatwidget> {
         actions: [
           IconButton(onPressed: () {}, icon: Icon(Icons.qr_code_scanner), color: Colors.white,),
           IconButton(onPressed: () {}, icon: Icon(Icons.camera_alt_outlined), color: Colors.white,),
-          IconButton(onPressed: () {}, icon: Icon(Icons.more_vert), color: Colors.white,),
+          PopupMenuButton<int>(
+            icon: const Icon(Icons.more_vert, color: Colors.white),
+            color: const Color(0xFF151D24),
+            elevation: 8,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),),
+            onSelected: (value) {
+              // Handle menu item selection
+              switch (value) {
+                case 1:
+                  print("New group selected");
+                  break;
+                case 2:
+                  print("New broadcast selected");
+                  break;
+                case 3:
+                  print("Linked devices selected");
+                  break;
+                case 4:
+                  print("Starred messages");
+                  break;
+                case 5:
+                  print("Payments");
+                  break;
+                case 6:
+                  print("Settings");
+                  break;
+              }
+            },
+            offset: Offset(0, 50),
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 1,
+                child: const Text("New group", style: TextStyle(color: Colors.white, fontSize: 16)),
+              ),
+              PopupMenuItem(
+                value: 2,
+                child: const Text("New broadcast", style: TextStyle(color: Colors.white, fontSize: 16)),
+              ),
+              PopupMenuItem(
+                value: 3,
+                child: const Text("Linked devices", style: TextStyle(color: Colors.white, fontSize: 16)),
+              ),
+              PopupMenuItem(
+                value: 4,
+                child: const Text("Starred messages", style: TextStyle(color: Colors.white, fontSize: 16)),
+              ),
+              PopupMenuItem(
+                value: 5,
+                child: const Text("Payments", style: TextStyle(color: Colors.white, fontSize: 16)),
+              ),
+              PopupMenuItem(
+                value: 5,
+                child: const Text("Settings", style: TextStyle(color: Colors.white, fontSize: 16)),
+              ),
+            ],
+          ),
         ],
       ),
       body:   Column(
@@ -168,104 +226,119 @@ class _ChatwidgetState extends State<Chatwidget> {
                 physics: BouncingScrollPhysics(),
                 itemCount: filtereditems.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    height: 80,
-                    width: 200,
-                    color: Color(0xFF0B1014),
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          left: 15,
-                          child: Container(
-                            height: 50,
-                            width: 50,
-                            child: CircleAvatar(
-                              backgroundImage: NetworkImage("${filtereditems[index].url}"),
+                  return InkWell(
+                    onTap: () {
+                      // Navigate to the Chatview page when a chat tile is tapped
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Chatview(), // Navigate to the Chatview page
+                        ),
+                      );
+                    },
+                    child: Container(
+                      height: 80,
+                      width: 200,
+                      color: Color(0xFF0B1014),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            left: 15,
+                            child: Container(
+                              height: 50,
+                              width: 50,
+                              child: CircleAvatar(
+                                backgroundImage: NetworkImage("${filtereditems[index].url}"),
+                              ),
                             ),
                           ),
-                        ),
-                        Positioned(
-                          left: 75,
-                          top: 4,
-                          child: Text(
-                            "${filtereditems[index].names}",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          ),
-                        ),
-                        if (filtereditems[index].msgRevd == true)
                           Positioned(
                             left: 75,
-                            top: 31,
+                            top: 4,
                             child: Text(
-                              "${filtereditems[index].message}",
-                              style: TextStyle(color: Colors.grey, fontSize: 15),
+                              "${filtereditems[index].names}",
+                              style: TextStyle(color: Colors.white, fontSize: 20),
                             ),
                           ),
-                        if (filtereditems[index].msgRevd == false)
-                          Positioned(
-                            left: 98,
-                            top: 31,
-                            child: Text(
-                              "${filtereditems[index].message}",
-                              style: TextStyle(color: Colors.grey, fontSize: 15),
-                            ),
-                          ),
-                        Positioned(
-                          right: 16,
-                          top: 15,
-                          child: Text(
-                            "${filtereditems[index].time}",
-                            style: TextStyle(color: Colors.grey, fontSize: 12),
-                          ),
-                        ),
-                        if (filtereditems[index].msgRevd == true)
-                          Positioned(
-                            right: 18,
-                            top: 38,
-                            child: filtereditems[index].viewMsg == false
-                                ? Container(
-                              width: 20,
-                              height: 20,
-                              decoration: BoxDecoration(
-                                color: Color(0xFF21C063),
-                                shape: BoxShape.circle,
+                          if (filtereditems[index].msgRevd == true)
+                            Positioned(
+                              left: 75,
+                              top: 31,
+                              child: Text(
+                                "${filtereditems[index].message}",
+                                style: TextStyle(color: Colors.grey, fontSize: 15),
                               ),
-                              child: Center(
-                                child: Text(
-                                  "${filtereditems[index].unreadCount}",
-                                  style: TextStyle(
-                                    color: Color(0xFF0B1014),
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
+                            ),
+                          if (filtereditems[index].msgRevd == false)
+                            Positioned(
+                              left: 98,
+                              top: 31,
+                              child: Text(
+                                "${filtereditems[index].message}",
+                                style: TextStyle(color: Colors.grey, fontSize: 15),
+                              ),
+                            ),
+                          Positioned(
+                            right: 16,
+                            top: 15,
+                            child: Text(
+                              "${filtereditems[index].time}",
+                              style: TextStyle(color: Colors.grey, fontSize: 12),
+                            ),
+                          ),
+                          if (filtereditems[index].msgRevd == true)
+                            Positioned(
+                              right: 18,
+                              top: 38,
+                              child: filtereditems[index].viewMsg == false
+                                  ? Container(
+                                width: 20,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFF21C063),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "${filtereditems[index].unreadCount}",
+                                    style: TextStyle(
+                                      color: Color(0xFF0B1014),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
-                              ),
+                              )
+                                  : SizedBox.shrink(),
                             )
-                                : SizedBox.shrink(),
-                          )
-                        else
-                          Positioned(
-                            left: 75,
-                            top: 31,
-                            child: Icon(
-                              Icons.done_all_sharp,
-                              color: filtereditems[index].readstatus ? Colors.blueAccent : Colors.grey,
-                              size: 19,
+                          else
+                            Positioned(
+                              left: 75,
+                              top: 31,
+                              child: Icon(
+                                Icons.done_all_sharp,
+                                color: filtereditems[index].readstatus ? Colors.blueAccent : Colors.grey,
+                                size: 19,
+                              ),
                             ),
-                          ),
-                      ],
+                        ],
+                      ),
                     ),
                   );
                 },
               ),
             ),
-          ),
+          )
         ],
       ),
       floatingActionButton: Container(
         height: 55,
         width: 55,
-        child: FloatingActionButton(onPressed: () {},
+        child: FloatingActionButton(onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+            return Contact_list();
+          }));
+        },
           backgroundColor: Color(0xFF21C063),
           elevation: 20,
           child: Icon(Icons.add_comment_sharp, color: Colors.black, size: 23,),
