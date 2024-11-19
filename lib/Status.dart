@@ -174,13 +174,13 @@ class _StatusState extends State<Status> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 18.0, left: 16.0),
+              padding: const EdgeInsets.only(top: 19.0, left: 16.0),
               child: Text(
                 "Recent updates",
-                style: TextStyle(color: Colors.grey, fontSize: 15, fontWeight: FontWeight.w500),
+                style: TextStyle(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w500),
               ),
             ),
-            SizedBox(height: 12,),
+            SizedBox(height: 13,),
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
@@ -191,7 +191,7 @@ class _StatusState extends State<Status> {
                   padding: const EdgeInsets.only(bottom: 6),
                   child: ListTile(
                     leading: StatusView(
-                      radius: 28,
+                      radius: 27,
                       spacing: 15,
                       strokeWidth: 2,
                       indexOfSeenStatus: list.isSeen ? 2 : 0, // Show seen status
@@ -203,24 +203,24 @@ class _StatusState extends State<Status> {
                     ),
                     title: Text(
                       list.name,
-                      style: TextStyle(color: Colors.white, fontSize: 19),
+                      style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                     subtitle: Text(
                       list.time,
-                      style: TextStyle(color: Colors.grey, fontSize: 15),
+                      style: TextStyle(color: Colors.grey, fontSize: 14),
                     ),
                   ),
                 );
               },
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 5.0, left: 16.0),
+              padding: const EdgeInsets.only(top: 6.0, left: 16.0),
               child: Text(
                 "Viewed updates",
-                style: TextStyle(color: Colors.grey, fontSize: 15, fontWeight: FontWeight.w500),
+                style: TextStyle(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w500),
               ),
             ),
-            SizedBox(height: 10,),
+            SizedBox(height: 11,),
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
@@ -255,34 +255,41 @@ class _StatusState extends State<Status> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class StatusDetailView extends StatelessWidget {
-  final Statusmodel status;
-  const StatusDetailView({super.key, required this.status});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xFF0B1014),
-        title: Text(status.name),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        floatingActionButton: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Image.network(status.url),
-            SizedBox(height: 20),
-            Text(status.name, style: TextStyle(color: Colors.white, fontSize: 22)),
-            SizedBox(height: 10),
-            Text(status.time, style: TextStyle(color: Colors.grey, fontSize: 16)),
+            Material(
+              color: Colors.transparent, // Make background transparent
+              elevation: 30,
+                shadowColor: Colors.black,
+                child: FloatingActionButton(
+                  onPressed: () {},
+                  backgroundColor: Color(0xFF1F272A),
+                  mini: true,
+                  child: Icon(
+                    Icons.edit,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                ),
+              ),
+            SizedBox(height: 10), // Space between buttons
+            Container(
+              height: 55,
+              width: 55,
+              child: FloatingActionButton(
+                onPressed: () {},
+                backgroundColor: Color(0xFF21C063),
+                elevation: 20,
+                child: Icon(Icons.photo_camera_rounded, color: Colors.black, size: 23),
+              ),
+            ),
           ],
         ),
+
       ),
     );
   }
 }
+
+
