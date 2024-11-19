@@ -228,13 +228,6 @@ class _ChatwidgetState extends State<Chatwidget> {
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
                     onTap: () {
-                      // Navigate to the Chatview page when a chat tile is tapped
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Chatview(), // Navigate to the Chatview page
-                        ),
-                      );
                     },
                     child: Container(
                       height: 80,
